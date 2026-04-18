@@ -15,7 +15,6 @@ import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.net.http.HttpClient;
 
 public final class DisCoreBot extends JavaPlugin implements Listener {
     private JDAManager jda;
@@ -35,8 +34,12 @@ public final class DisCoreBot extends JavaPlugin implements Listener {
     public void onEnable() {
         SettingManager setting = new SettingManager(this);
         jda = new JDAManager(this);
-        jda.boot(setting.BOT_TOKEN);
-        
+        try {
+            jda.boot(setting.BOT_TOKEN);
+        } catch (Exception e) {
+            getLogger().severe("DiscordBotを起動できないためプラグインを無効化します。設定を見直してください。\nそれでも解決しない場合はGitHubリポジトリのissueにて問題を報告してください。\nGitHub: https://github.com/MrBest2525/discorebot/issues");
+            getServer().getPluginManager().disablePlugin(this);
+        }
         webhookManager = new WebhookManager(this);
         
         messageExecutor = new MessageExecutor(this);

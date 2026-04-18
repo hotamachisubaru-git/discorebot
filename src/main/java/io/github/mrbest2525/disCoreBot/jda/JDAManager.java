@@ -46,6 +46,7 @@ public class JDAManager extends ListenerAdapter {
             Thread.currentThread().interrupt();
         } catch (Exception e) {
             logger.severe("DiscordBot起動時にエラーが発生しました。 error:\n" + e.getMessage() + "\n" + e.fillInStackTrace());
+            throw e;
         }
     }
     
