@@ -90,6 +90,10 @@ tasks.shadowJar {
 publishing {
     publications {
         create<MavenPublication>("maven") {
+
+            groupId = "io.github.mrbest2525"
+            artifactId = "discorebot"
+
             // 1. 純粋な jar (依存関係なし) を追加
             artifact(tasks.jar.get())
 
@@ -100,7 +104,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/${System.getenv("GITHUB_REPOSITORY")}")
+            url = uri("https://maven.pkg.github.com/mrbest2525/discorebot")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
