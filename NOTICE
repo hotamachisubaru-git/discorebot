@@ -1,0 +1,75 @@
+DisCoreBot
+Copyright (c) 2026 Mr.Best
+
+This product includes software developed by third parties.
+Full license texts for these libraries can be found in the 'licenses/' directory.
+
+--------------------------------------------------------------------------------
+
+1. discord-webhooks (club.minnced:discord-webhooks)
+    License: Apache License Version 2.0
+    GitHub: https://github.com/MinnDevelopment/discord-webhooks
+
+2. jackson-annotations (com.fasterxml.jackson.core:jackson-annotations)
+    License: Apache License Version 2.0
+    GitHub: https://github.com/FasterXML/jackson-annotations
+
+3. jackson-core (com.fasterxml.jackson.core:jackson-core)
+    License: Apache License Version 2.0
+    GitHub: https://github.com/FasterXML/jackson-core
+
+4. jackson-databind (com.fasterxml.jackson.core:jackson-databind)
+    License: Apache License Version 2.0
+    GitHub: https://github.com/FasterXML/jackson-databind
+
+5. jackson-bom (com.fasterxml.jackson:jackson-bom)
+    License: Apache License Version 2.0
+    GitHub: https://github.com/FasterXML/jackson-bom
+
+6. nv-websocket-client (com.neovisionaries:nv-websocket-client)
+    License: Apache License Version 2.0
+    GitHub: https://github.com/TakahikoKawasaki/nv-websocket-client
+
+7. okhttp (com.squareup.okhttp3:okhttp)
+    License: Apache License Version 2.0
+    GitHub: https://github.com/square/okhttp
+
+8. okhttp-jvm (com.squareup.okhttp3:okhttp-jvm)
+    License: Apache License Version 2.0
+    GitHub: https://github.com/square/okhttp
+
+9. okio (com.squareup.okio:okio)
+    License: Apache License Version 2.0
+    GitHub: https://github.com/square/okio
+
+10. okio-jvm (com.squareup.okio:okio-jvm)
+    License: Apache License Version 2.0
+    GitHub: https://github.com/square/okio
+
+11. JDA (net.dv8tion:JDA)
+    License: Apache License Version 2.0
+    GitHub: https://github.com/discord-jda/JDA
+
+12. commons-collections4 (org.apache.commons:commons-collections4)
+    License: Apache License Version 2.0
+    GitHub: https://github.com/apache/commons-collections
+
+13. kotlin-stdlib (org.jetbrains.kotlin:kotlin-stdlib)
+    License: Apache License Version 2.0
+    GitHub: https://github.com/JetBrains/kotlin
+
+14. annotations (org.jetbrains:annotations)
+    License: Apache License Version 2.0
+    GitHub: https://github.com/JetBrains/java-annotations
+
+15. slf4j-api (org.slf4j:slf4j-api)
+    License: MIT License
+    GitHub: https://github.com/qos-ch/slf4j
+
+16. core (net.sf.trove4j:core)
+    License: GNU LESSER GENERAL PUBLIC LICENSE
+    Bitbucket: https://bitbucket.org/trove4j/trove/src/master/
+
+17. json (org.json:json)
+    License: Public Domain
+    GitHub: https://github.com/stleary/JSON-java
