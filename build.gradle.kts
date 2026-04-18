@@ -4,6 +4,7 @@ plugins {
     id("java-library")
     id("com.gradleup.shadow") version "9.4.1"
     id("xyz.jpenilla.resource-factory-bukkit-convention") version "1.3.1"
+    `maven-publish`
 }
 
 repositories {
@@ -81,4 +82,25 @@ tasks.shadowJar {
     relocate("org.jetbrains.annotations", "$prefix.jetbrains.annotations")
     // Kotlinは他と競合しやすいので、これもリロケートするのが安全です
     relocate("kotlin", "$prefix.kotlin")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"]) // 通常の jar を含める
+
+            // 配布用の shadowJar (-all.jar) もアーティファクトとして含める設定
+            artifact(tasks.shadowJar.get())
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/${System.getenv("GITHUB_REPOSITORY")}")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
