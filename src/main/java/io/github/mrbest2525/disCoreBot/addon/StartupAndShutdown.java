@@ -22,9 +22,9 @@ public class StartupAndShutdown implements Listener {
     
     public StartupAndShutdown(DisCoreBot core) {
         this.core = core;
-        STARTUP_AND_SHUTDOWN = NamespacedKey.fromString("join_and_quit", core);
+        STARTUP_AND_SHUTDOWN = NamespacedKey.fromString("startup_and_shutdown", core);
         
-        this.configFile = new File(core.getAddonDataDir(), "join_and_quit/join_and_quit.yml");
+        this.configFile = new File(core.getAddonDataDir(), "startup_and_shutdown/startup_and_shutdown.yml");
         loadConfig();
         
         // アドオンが有効設定の場合のみ機能させる
