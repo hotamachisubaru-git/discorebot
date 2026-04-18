@@ -7,6 +7,9 @@ plugins {
     `maven-publish`
 }
 
+group = project.property("group") as String
+version = project.property("version") as String
+
 repositories {
     mavenCentral()
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")

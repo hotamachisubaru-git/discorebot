@@ -35,7 +35,7 @@ jobs:
           
           # gradle.properties の mod_version を書き換え
           # ※ .kts 内で mod_version を参照するように build.gradle.kts も調整してください
-          sed -i "s/^mod_version\s*=.*/mod_version=${VERSION}/" gradle.properties
+          sed -i "s/^version=.*/version=${VERSION}/" gradle.properties
           
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
