@@ -87,9 +87,10 @@ tasks.shadowJar {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            from(components["java"]) // 通常の jar を含める
+            // 1. 純粋な jar (依存関係なし) を追加
+            artifact(tasks.jar.get())
 
-            // 配布用の shadowJar (-all.jar) もアーティファクトとして含める設定
+            // 2. shadowJar (-all.jar) を追加
             artifact(tasks.shadowJar.get())
         }
     }
