@@ -43,9 +43,13 @@ public class JDAManager extends ListenerAdapter {
             logger.info("Discord Botが正常に起動しました！");
         } catch (InterruptedException e) {
             logger.warning("DiscordBot起動中に割り込みが発生しました。");
+            if (jda != null) jda.shutdownNow();
             Thread.currentThread().interrupt();
         } catch (Exception e) {
-            logger.severe("DiscordBot起動時にエラーが発生しました。 error:\n" + e.getMessage() + "\n" + e.fillInStackTrace());
+            logger.severe("DiscordBot起動時にエラーが発生しました。");
+            if (jda != null) {
+                jda.shutdownNow();
+            }
             throw e;
         }
     }

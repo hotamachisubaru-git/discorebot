@@ -38,7 +38,10 @@ public final class DisCoreBot extends JavaPlugin implements Listener {
             jda.boot(setting.BOT_TOKEN);
         } catch (Exception e) {
             getLogger().severe("DiscordBotを起動できないためプラグインを無効化します。設定を見直してください。\nそれでも解決しない場合はGitHubリポジトリのissueにて問題を報告してください。\nGitHub: https://github.com/MrBest2525/discorebot/issues");
+            jda.shutdown();
+            jda = null;
             getServer().getPluginManager().disablePlugin(this);
+            return;
         }
         webhookManager = new WebhookManager(this);
         
@@ -66,14 +69,19 @@ public final class DisCoreBot extends JavaPlugin implements Listener {
     
     @Override
     public void onDisable() {
-        addonStartupAndShutdown.onDisable();
+        if (addonStartupAndShutdown != null) addonStartupAndShutdown.onDisable();
         
-        messageExecutor.shutdown();
-        jda.shutdown();
-        jda = null;
+        if (messageExecutor != null) messageExecutor.shutdown();
         
-        webhookManager.load();
-        webhookManager.save();
+        if (jda != null) {
+            jda.shutdown();
+            jda = null;
+        }
+        
+        if (webhookManager != null) {
+            webhookManager.load();
+            webhookManager.save();
+        }
     }
     
     @EventHandler
