@@ -14,7 +14,6 @@ repositories {
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.11-R0.1-SNAPSHOT")
 
-    // TODO ライセンスの明記忘れずに
     implementation("net.dv8tion:JDA:6.4.1") {
         // 音声系は不要なので除外して軽量化
         exclude(module = "opus-java")
@@ -33,7 +32,7 @@ bukkitPluginYaml {
 
     commands {
         register("discorebot") { // コマンド名
-            description = "DisCoreBotのメインコマンドです"
+            description = "This is the main command for DisCoreBot."
             usage = "/discorebot"
             permission = "discorebot.admin"
         }

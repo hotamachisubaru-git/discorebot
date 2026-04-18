@@ -1,0 +1,106 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build_and_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write # GitHub Packages 公開に必要
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'gradle'
+          server-id: github # Packages 公開用の設定
+          settings-path: ${{ github.workspace }}
+      
+      - name: Versioning and Tag Update
+        id: versioning
+        run: |
+          RAW_TAG=${{ github.ref_name }}
+          VERSION=${RAW_TAG#v}
+          
+          # gradle.properties の mod_version を書き換え
+          # ※ .kts 内で mod_version を参照するように build.gradle.kts も調整してください
+          sed -i "s/^mod_version\s*=.*/mod_version=${VERSION}/" gradle.properties
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add gradle.properties
+          if ! git diff --cached --exit-code --quiet; then
+            git commit -m "chore: bump version to ${VERSION} for tag ${RAW_TAG}"
+            git tag -f ${RAW_TAG}
+            git push origin ${RAW_TAG} --force
+          else
+            echo "既にバージョンが一致しているため、コミットをスキップします。"
+          fi
+      
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      
+      - name: Build with Gradle
+        run: ./gradlew build
+      
+      # 1. GitHub Packages への公開 (純粋な jar と shadowJar 両方)
+      - name: Publish to GitHub Packages
+        run: ./gradlew publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Determine Version Type
+        id: check_type
+        shell: bash
+        run: |
+          TAG="${{ github.ref_name }}"
+          if [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "type=release" >> $GITHUB_OUTPUT
+          elif [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-alpha$ ]]; then
+            echo "type=alpha" >> $GITHUB_OUTPUT
+          elif [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-beta$ ]]; then
+            echo "type=beta" >> $GITHUB_OUTPUT
+          else
+            echo "type=skip" >> $GITHUB_OUTPUT
+          fi
+      
+      # 2. GitHub Release 作成 (shadowJar をアップロード)
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          generate_release_notes: true
+          name: ${{ github.ref_name }}
+          # 配布用 (-all) のみを対象にする
+          files: build/libs/*-all.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      # 3. Modrinth への公開
+      - name: Publish to Modrinth
+        if: steps.check_type.outputs.type != 'skip'
+        uses: Kir-Antipov/mc-publish@v3
+        with:
+          modrinth-id: ${{ secrets.MODRINTH_PROJECT_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          # Modrinth には配布用の shadowJar のみを送信
+          files: build/libs/*-all.jar
+          version: ${{ github.ref_name }}
+          version-type: ${{ steps.check_type.outputs.type }}
+          # Spigot 1.21.11 への対応
+          loaders: spigot, paper
+          game-versions: 1.21.11
