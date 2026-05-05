@@ -64,27 +64,7 @@ tasks.shadowJar {
         into("META-INF/licenses")
     }
 
-    // --- ここからリロケートの設定 ---
-    // あなたのパッケージ配下の「libs」という場所に全て引っ越しさせます
-    val prefix = "io.github.mrbest2525.disCoreBot.libs"
-
-    // 1. 直接依存（JDAとWebhooks）
-    relocate("net.dv8tion.jda", "$prefix.jda")
-    relocate("club.minnced.discord.webhook", "$prefix.webhooks")
-
-    // 2. JDAやWebhooksが「中に入れている」間接依存たち
-    // これらを指定しないと、他のプラグインのライブラリと衝突してクラッシュします
-    relocate("okhttp3", "$prefix.okhttp3")
-    relocate("okio", "$prefix.okio")
-    relocate("com.fasterxml.jackson", "$prefix.jackson")
-    relocate("org.slf4j", "$prefix.slf4j")
-    relocate("net.sf.trove4j", "$prefix.trove4j")
-    relocate("com.neovisionaries.ws", "$prefix.websocket")
-    relocate("org.apache.commons.collections4", "$prefix.commons")
-    relocate("org.json", "$prefix.json")
-    relocate("org.jetbrains.annotations", "$prefix.jetbrains.annotations")
-    // Kotlinは他と競合しやすいので、これもリロケートするのが安全です
-    relocate("kotlin", "$prefix.kotlin")
+    
 }
 
 publishing {
