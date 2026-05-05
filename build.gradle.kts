@@ -97,14 +97,6 @@ publishing {
             artifact(tasks.shadowJar.get()) {
                 classifier = "" 
             }
-
-            pom.withXml {
-                val node = asNode()
-                val dependenciesNode = node.getAt(groovy.xml.QName.valueOf("dependencies"))
-                if (dependenciesNode.isNotEmpty()) {
-                    node.remove(dependenciesNode[0] as groovy.util.Node)
-                }
-            }
         }
     }
     repositories {
