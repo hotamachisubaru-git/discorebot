@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.mrbest2525:discorebot:1.0.1")
+    implementation("com.github.mrbest2525:discorebot:1.0.2")
 }
 ```
 
@@ -85,7 +85,7 @@ mavenCentral()
 maven { url = uri("https://jitpack.io") }
 }
 dependencies {
-implementation("com.github.mrbest2525:discorebot:1.0.1")
+implementation("com.github.mrbest2525:discorebot:1.0.2")
 }
 ```
 
