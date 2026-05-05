@@ -94,11 +94,17 @@ publishing {
             groupId = "io.github.mrbest2525"
             artifactId = "discorebot"
 
-            // 1. 純粋な jar (依存関係なし) を追加
-            artifact(tasks.jar.get())
+            artifact(tasks.shadowJar.get()) {
+                classifier = "" 
+            }
 
-            // 2. shadowJar (-all.jar) を追加
-            artifact(tasks.shadowJar.get())
+            pom.withXml {
+                val node = asNode()
+                val dependenciesNode = node.getAt(groovy.xml.QName.valueOf("dependencies"))
+                if (dependenciesNode.isNotEmpty()) {
+                    node.remove(dependenciesNode[0] as groovy.util.Node)
+                }
+            }
         }
     }
     repositories {
