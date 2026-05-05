@@ -17,6 +17,19 @@ DisCoreBotは、Minecraftサーバー（Spigotおよびその派生）とDiscord
 ## API利用方法
 アドオン開発や他プラグインからの連携には、以下のイベントおよびAPIを利用できます。
 
+### Gradleでの依存関係追加
+`build.gradle.kts`に以下の行を追加してください。
+```
+repositories {
+    mavenCentral()
+    maven { url = uri("https://jitpack.io") }
+}
+
+dependencies {
+    implementation("com.github.mrbest2525:discorebot:1.0.1")
+}
+```
+
 ### 登録イベント: DisCoreBotRegisterEvent
 DisCoreBotへ必要な情報を登録するために使用します。
 * **チャンネルと識別IDの登録**
@@ -35,6 +48,11 @@ Discordからメッセージが送信された際に発火します。
 
 ### その他API
 `DisCoreBotApi` を使用することで、以下の機能を利用できます。
+
+#### メッセージ送信: `DisCoreBotApi#sendMessage(NamespacedKey id, String channel, WebhookMessage message)`
+事前に登録した識別IDとチャンネルIDを使用してメッセージを送信します。
+* **メッセージの作成**: `WebhookMessageBuilder` を使用してメッセージをビルドしてください。埋め込みメッセージ（Embed）も同様の手順で作成・送信可能です。
+* **送信処理**: このメソッドで指定されたメッセージは一度送信キューに取り込まれた後、非同期で順次送信されます。
 
 ---
 
@@ -56,6 +74,18 @@ DisCoreBot is a core plugin designed to integrate Minecraft servers (Spigot and 
 
 ## API Usage
 For add-on development or integration with other plugins, the following events and APIs are available.
+
+### Adding Dependencies in Gradle
+Add the following lines to `build.gradle.kts`:
+```
+repositories {
+mavenCentral()
+maven { url = uri("https://jitpack.io") }
+}
+dependencies {
+implementation("com.github.mrbest2525:discorebot:1.0.1")
+}
+```
 
 ### Registration Event: DisCoreBotRegisterEvent
 Used to register necessary information to DisCoreBot.
@@ -80,8 +110,3 @@ Additional features are available via `DisCoreBotApi`.
 Sends a message using a previously registered identification ID and channel ID.
 * **Creating Messages**: Build your message using `WebhookMessageBuilder`. Embedded messages (Embeds) can also be created and sent using this feature.
 * **Transmission Process**: Messages specified in this method are first added to a transmission queue and then sent sequentially and asynchronously.
-
-#### メッセージ送信: `DisCoreBotApi#sendMessage(NamespacedKey id, String channel, WebhookMessage message)`
-事前に登録した識別IDとチャンネルIDを使用してメッセージを送信します。
-* **メッセージの作成**: `WebhookMessageBuilder` を使用してメッセージをビルドしてください。埋め込みメッセージ（Embed）も同様の手順で作成・送信可能です。
-* **送信処理**: このメソッドで指定されたメッセージは一度送信キューに取り込まれた後、非同期で順次送信されます。
