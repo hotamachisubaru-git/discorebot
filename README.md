@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/MrBest2525/discorebot.svg)](https://jitpack.io/#MrBest2525/discorebot)
+
 # DisCoreBot
 DisCoreBotは、Minecraftサーバー（Spigotおよびその派生）とDiscordを連携させるためのコアプラグインです。
 
