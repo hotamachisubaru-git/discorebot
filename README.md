@@ -1,4 +1,6 @@
 [![](https://jitpack.io/v/MrBest2525/discorebot.svg)](https://jitpack.io/#MrBest2525/discorebot)
+[![Modrinth Downloads](https://img.shields.io/modrinth/dt/AP46ywqz?logo=Modrinth&logoSize=auto&label=DisCoreBot&link=https%3A%2F%2Fmodrinth.com%2Fplugin%2Fdiscorebot)](https://modrinth.com/plugin/discorebot)
+
 
 # DisCoreBot
 DisCoreBotは、Minecraftサーバー（Spigotおよびその派生）とDiscordを連携させるためのコアプラグインです。
