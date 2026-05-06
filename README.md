@@ -24,11 +24,11 @@ DisCoreBotは、Minecraftサーバー（Spigotおよびその派生）とDiscord
 ```
 repositories {
     mavenCentral()
-    maven { url = uri("https://jitpack.io") }
+    maven("https://jitpack.io")
 }
 
 dependencies {
-    implementation("com.github.mrbest2525:discorebot:1.0.3)
+    compileOnly("com.github.mrbest2525:discorebot:v1.0.3)
 }
 ```
 
@@ -81,11 +81,12 @@ For add-on development or integration with other plugins, the following events a
 Add the following lines to `build.gradle.kts`:
 ```
 repositories {
-mavenCentral()
-maven { url = uri("https://jitpack.io") }
+    mavenCentral()
+    maven("https://jitpack.io")
 }
+
 dependencies {
-implementation("com.github.mrbest2525:discorebot:1.0.3")
+    compileOnly("com.github.mrbest2525:discorebot:v1.0.3)
 }
 ```
 
