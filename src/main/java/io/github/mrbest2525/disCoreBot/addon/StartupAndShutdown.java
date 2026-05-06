@@ -17,6 +17,7 @@ public class StartupAndShutdown implements Listener {
     private final DisCoreBot core;
     private final File configFile;
     private YamlConfiguration config;
+    private boolean enabled = true;
     
     private final NamespacedKey STARTUP_AND_SHUTDOWN;
     
@@ -28,7 +29,8 @@ public class StartupAndShutdown implements Listener {
         loadConfig();
         
         // アドオンが有効設定の場合のみ機能させる
-        if (!config.getBoolean("enabled")) return;
+        enabled = config.getBoolean("enabled");
+        if (!enabled) return;
         core.getServer().getPluginManager().registerEvents(this, core);
         
     }
@@ -52,14 +54,17 @@ public class StartupAndShutdown implements Listener {
     
     @EventHandler
     public void onRegister(DisCoreBotRegisterEvent event) {
+        if (!enabled) return;
         event.registerM2D(STARTUP_AND_SHUTDOWN, config.getString("channel-id"));
     }
     
     public void onEnable() {
+        if (!enabled) return;
         DisCoreBotApi.getInstance().sendMessage(STARTUP_AND_SHUTDOWN, config.getString("channel-id"), new WebhookMessageBuilder().setContent("サーバーが起動しました。").build());
     }
     
     public void onDisable() {
+        if (!enabled) return;
         DisCoreBotApi.getInstance().sendMessage(STARTUP_AND_SHUTDOWN, config.getString("channel-id"), new WebhookMessageBuilder().setContent("サーバーを終了しました。").build());
     }
 }

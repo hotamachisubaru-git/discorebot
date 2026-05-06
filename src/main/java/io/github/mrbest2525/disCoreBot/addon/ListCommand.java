@@ -16,6 +16,7 @@ public class ListCommand implements Listener {
     private final DisCoreBot core;
     private final File configFile;
     private YamlConfiguration config;
+    private boolean enabled = true;
     
     public ListCommand (DisCoreBot core) {
         this.core = core;
@@ -24,7 +25,8 @@ public class ListCommand implements Listener {
         loadConfig();
         
         // アドオンが有効設定の場合のみ機能させる
-        if (!config.getBoolean("enabled")) return;
+        enabled = config.getBoolean("enabled");
+        if (!enabled) return;
         core.getServer().getPluginManager().registerEvents(this, core);
         
         
@@ -48,6 +50,7 @@ public class ListCommand implements Listener {
     
     @EventHandler
     public void onRegister(DisCoreBotRegisterEvent event) {
+        if (!enabled) return;
         event.registerSlashCommand(Commands.slash("list", "プレイヤーリストを表示"), commandEvent -> {
             StringBuilder builder = new StringBuilder();
             Bukkit.getServer().getOnlinePlayers().forEach(name -> builder.append("・").append(name.getDisplayName()).append("\n"));
