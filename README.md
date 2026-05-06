@@ -32,6 +32,7 @@ dependencies {
 }
 ```
 > ※最新のリリースと同じバージョンに変更してください。
+[![](https://jitpack.io/v/MrBest2525/discorebot.svg)](https://jitpack.io/#MrBest2525/discorebot)
 
 ### 登録イベント: DisCoreBotRegisterEvent
 DisCoreBotへ必要な情報を登録するために使用します。
@@ -91,6 +92,7 @@ dependencies {
 }
 ```
 > *Please update to the latest release version.
+[![](https://jitpack.io/v/MrBest2525/discorebot.svg)](https://jitpack.io/#MrBest2525/discorebot)
 
 ### Registration Event: DisCoreBotRegisterEvent
 Used to register necessary information to DisCoreBot.
