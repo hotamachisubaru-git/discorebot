@@ -28,9 +28,10 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.mrbest2525:discorebot:v1.0.3)
+    compileOnly("com.github.mrbest2525:discorebot:v1.0.4)
 }
 ```
+> ※最新のリリースと同じバージョンに変更してください。
 
 ### 登録イベント: DisCoreBotRegisterEvent
 DisCoreBotへ必要な情報を登録するために使用します。
@@ -86,9 +87,10 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.mrbest2525:discorebot:v1.0.3)
+    compileOnly("com.github.mrbest2525:discorebot:v1.0.4)
 }
 ```
+> *Please update to the latest release version.
 
 ### Registration Event: DisCoreBotRegisterEvent
 Used to register necessary information to DisCoreBot.
