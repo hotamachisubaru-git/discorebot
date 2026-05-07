@@ -1,4 +1,6 @@
 [![](https://jitpack.io/v/MrBest2525/discorebot.svg)](https://jitpack.io/#MrBest2525/discorebot)
+[![Modrinth Downloads](https://img.shields.io/modrinth/dt/AP46ywqz?logo=Modrinth&logoSize=auto&label=DisCoreBot&link=https%3A%2F%2Fmodrinth.com%2Fplugin%2Fdiscorebot)](https://modrinth.com/plugin/discorebot)
+
 
 # DisCoreBot
 DisCoreBotは、Minecraftサーバー（Spigotおよびその派生）とDiscordを連携させるためのコアプラグインです。
@@ -28,9 +30,11 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.mrbest2525:discorebot:v1.0.3)
+    compileOnly("com.github.mrbest2525:discorebot:v1.0.4)
 }
 ```
+> ※最新のリリースと同じバージョンに変更してください。
+[![](https://jitpack.io/v/MrBest2525/discorebot.svg)](https://jitpack.io/#MrBest2525/discorebot)
 
 ### 登録イベント: DisCoreBotRegisterEvent
 DisCoreBotへ必要な情報を登録するために使用します。
@@ -86,9 +90,11 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.mrbest2525:discorebot:v1.0.3)
+    compileOnly("com.github.mrbest2525:discorebot:v1.0.4)
 }
 ```
+> *Please update to the latest release version.
+[![](https://jitpack.io/v/MrBest2525/discorebot.svg)](https://jitpack.io/#MrBest2525/discorebot)
 
 ### Registration Event: DisCoreBotRegisterEvent
 Used to register necessary information to DisCoreBot.
