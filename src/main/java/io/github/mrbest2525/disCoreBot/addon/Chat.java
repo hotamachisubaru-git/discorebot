@@ -34,7 +34,6 @@ public class Chat implements Listener {
         
         // アドオンが有効設定の場合のみ機能させる
         enabled = config.getBoolean("enabled");
-        core.getLogger().severe(String.valueOf(enabled));
         if (!enabled) return;
         core.getServer().getPluginManager().registerEvents(this, core);
         
