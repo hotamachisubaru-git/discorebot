@@ -22,4 +22,8 @@ public class DisCoreBotApi {
     public void sendMessage(NamespacedKey id, String channel, WebhookMessage message) {
         core.getMessageExecutor().queueMessage(id, channel, message);
     }
+    
+    public void sendMessage(NamespacedKey id, String channel, String thread, WebhookMessage message) {
+        core.getMessageExecutor().queueMessage(id, channel, thread, message);
+    }
 }

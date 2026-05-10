@@ -6,6 +6,7 @@ import club.minnced.discord.webhook.send.WebhookMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
@@ -26,10 +27,20 @@ public class MessageExecutor {
     }
     
     public void queueMessage(NamespacedKey key, String channelID, WebhookMessage content) {
-        if (!queue.offer(new DiscordMessage(key, channelID, content))) {
+        if (!queue.offer(new DiscordMessage(key, channelID, null, content))) {
             Bukkit.getLogger().warning("キューに追加できなかったためメッセージを破棄しました。:\n" +
                     "NameSpacedKey[" + key + "]\n" +
                     "channel id[" + channelID + "]\n" +
+                    "content[" + content + "]");
+        }
+    }
+    
+    public void queueMessage(NamespacedKey key, String channelID, String threadID, WebhookMessage content) {
+        if (!queue.offer(new DiscordMessage(key, channelID, threadID, content))) {
+            Bukkit.getLogger().warning("キューに追加できなかったためメッセージを破棄しました。:\n" +
+                    "NameSpacedKey[" + key + "]\n" +
+                    "channel id[" + channelID + "]\n" +
+                    "thread id[" + threadID + "]\n" +
                     "content[" + content + "]");
         }
     }
@@ -91,6 +102,7 @@ public class MessageExecutor {
     public record DiscordMessage(
             @NotNull NamespacedKey key,
             @NotNull String channelID,
+            @Nullable String threadID,
             @NotNull WebhookMessage message
     ) {
         public void sendWebHook(DisCoreBot core) {
@@ -100,8 +112,12 @@ public class MessageExecutor {
             // 2. ライブラリのClientを作成（その場で作っても非常に軽量です）
             try (WebhookClient client = new WebhookClientBuilder(url).build()) {
                 
+                WebhookClient targetClient = (threadID != null)
+                        ? client.onThread(Long.parseLong(threadID))
+                        : client;
+                
                 // 3. 送信（内部で非同期実行される）
-                client.send(message).handle((message, throwable) -> {
+                targetClient.send(message).handle((message, throwable) -> {
                     if (throwable != null) {
                         // 4. 404エラー（Webhook消失）を検知
                         if (throwable.getMessage().contains("404")) {
@@ -112,6 +128,8 @@ public class MessageExecutor {
                     }
                     return null;
                 });
+            } catch (NumberFormatException e) {
+                Bukkit.getLogger().severe("無効なスレッドID形式です: " + threadID);
             }
         }
     }
