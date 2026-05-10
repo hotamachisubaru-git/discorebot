@@ -5,7 +5,9 @@ import io.github.mrbest2525.disCoreBot.addon.JoinAndQuit;
 import io.github.mrbest2525.disCoreBot.addon.ListCommand;
 import io.github.mrbest2525.disCoreBot.addon.StartupAndShutdown;
 import io.github.mrbest2525.disCoreBot.api.DisCoreBotApi;
+import io.github.mrbest2525.disCoreBot.api.event.DisCoreBotReadyEvent;
 import io.github.mrbest2525.disCoreBot.api.event.DisCoreBotRegisterEvent;
+import io.github.mrbest2525.disCoreBot.api.event.DisCoreBotStopEvent;
 import io.github.mrbest2525.disCoreBot.jda.JDAManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
@@ -40,6 +42,10 @@ public final class DisCoreBot extends JavaPlugin implements Listener {
             getLogger().severe("DiscordBotを起動できないためプラグインを無効化します。設定を見直してください。\nそれでも解決しない場合はGitHubリポジトリのissueにて問題を報告してください。\nGitHub: https://github.com/MrBest2525/discorebot/issues");
             jda.shutdown();
             jda = null;
+            
+            DisCoreBotStopEvent stopEvent = new DisCoreBotStopEvent(this);
+            Bukkit.getPluginManager().callEvent(stopEvent);
+            
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -96,6 +102,9 @@ public final class DisCoreBot extends JavaPlugin implements Listener {
         
         messageExecutor.start();
         getLogger().info("アドオンの登録が完了しました。");
+        
+        DisCoreBotReadyEvent readyEvent = new DisCoreBotReadyEvent(this);
+        Bukkit.getPluginManager().callEvent(readyEvent);
     }
     
     // =============================
