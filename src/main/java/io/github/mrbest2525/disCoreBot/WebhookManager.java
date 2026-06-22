@@ -26,7 +26,7 @@ public class WebhookManager {
     public WebhookManager(DisCoreBot core) {
         this.core = core;
         
-        loadWebhook();
+        loadWebhookConfig();
     }
     
     public void register(NamespacedKey key, String channelId, StackTraceElement stackTrace) {
@@ -115,13 +115,22 @@ public class WebhookManager {
     }
     
     public void loadWebhook() {
+        loadWebhookConfig();
+    }
+
+    private void loadWebhookConfig() {
         File file = core.getWebhookSavePath();
         if (file.exists()) {
             webhookConfig = YamlConfiguration.loadConfiguration(file);
         }
         if (webhookConfig == null) return;
         
-        webhookConfig.getKeys(false).forEach(key -> webhookMap.put(key, webhookConfig.getString(key)));
+        webhookConfig.getKeys(false).forEach(key -> {
+            String webhookUrl = webhookConfig.getString(key);
+            if (webhookUrl != null) {
+                webhookMap.put(key, webhookUrl);
+            }
+        });
     }
     
     public void saveWebhook() {
@@ -148,9 +157,14 @@ public class WebhookManager {
         }
         if (keyActiveConfig == null) return;
         
-        keyActiveConfig.getKeys(false).forEach(key ->
-            keyActiveMap.put(NamespacedKey.fromString(key), new KeyActiveContent(keyActiveConfig.getBoolean(key), false))
-        );
+        keyActiveConfig.getKeys(false).forEach(key -> {
+            NamespacedKey namespacedKey = NamespacedKey.fromString(key);
+            if (namespacedKey == null) {
+                Bukkit.getLogger().warning("不正なNamespacedKeyを無視しました: " + key);
+                return;
+            }
+            keyActiveMap.put(namespacedKey, new KeyActiveContent(keyActiveConfig.getBoolean(key), false));
+        });
         
     }
     

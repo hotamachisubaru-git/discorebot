@@ -19,22 +19,25 @@ public class JoinAndQuit implements Listener {
     private final DisCoreBot core;
     private final File configFile;
     private YamlConfiguration config;
-    private boolean enabled = true;
+    private final boolean enabled;
     
     private final NamespacedKey JOIN_AND_QUIT;
     
     public JoinAndQuit(DisCoreBot core) {
         this.core = core;
-        JOIN_AND_QUIT = NamespacedKey.fromString("join_and_quit", core);
+        JOIN_AND_QUIT = new NamespacedKey(core, "join_and_quit");
         
         this.configFile = new File(core.getAddonDataDir(), "join_and_quit/join_and_quit.yml");
         loadConfig();
         
         // アドオンが有効設定の場合のみ機能させる
         enabled = config.getBoolean("enabled");
-        if (!enabled) return;
-        core.getServer().getPluginManager().registerEvents(this, core);
-        
+    }
+
+    public void registerEvents() {
+        if (enabled) {
+            core.getServer().getPluginManager().registerEvents(this, core);
+        }
     }
     
     private void loadConfig() {
@@ -57,18 +60,18 @@ public class JoinAndQuit implements Listener {
     @EventHandler
     public void onRegister(DisCoreBotRegisterEvent event) {
         if (!enabled) return;
-        event.registerM2D(JOIN_AND_QUIT, config.getString("channel-id"));
+        event.registerM2D(JOIN_AND_QUIT, config.getString("channel-id", ""));
     }
     
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         if (!enabled) return;
-        DisCoreBotApi.getInstance().sendMessage(JOIN_AND_QUIT, config.getString("channel-id"), new WebhookMessageBuilder().setAvatarUrl(String.format("https://mc-heads.net/avatar/%s", event.getPlayer().getUniqueId())).setUsername(event.getPlayer().getDisplayName()).setContent("<" + event.getPlayer().getDisplayName() + "> がゲームに参加しました").build());
+        DisCoreBotApi.getInstance().sendMessage(JOIN_AND_QUIT, config.getString("channel-id", ""), new WebhookMessageBuilder().setAvatarUrl(String.format("https://mc-heads.net/avatar/%s", event.getPlayer().getUniqueId())).setUsername(event.getPlayer().getDisplayName()).setContent("<" + event.getPlayer().getDisplayName() + "> がゲームに参加しました").build());
     }
     
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         if (!enabled) return;
-        DisCoreBotApi.getInstance().sendMessage(JOIN_AND_QUIT, config.getString("channel-id"), new WebhookMessageBuilder().setAvatarUrl(String.format("https://mc-heads.net/avatar/%s", event.getPlayer().getUniqueId())).setUsername(event.getPlayer().getDisplayName()).setContent("<" + event.getPlayer().getDisplayName() + "> がゲームから退出しました").build());
+        DisCoreBotApi.getInstance().sendMessage(JOIN_AND_QUIT, config.getString("channel-id", ""), new WebhookMessageBuilder().setAvatarUrl(String.format("https://mc-heads.net/avatar/%s", event.getPlayer().getUniqueId())).setUsername(event.getPlayer().getDisplayName()).setContent("<" + event.getPlayer().getDisplayName() + "> がゲームから退出しました").build());
     }
 }

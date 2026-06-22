@@ -17,22 +17,25 @@ public class StartupAndShutdown implements Listener {
     private final DisCoreBot core;
     private final File configFile;
     private YamlConfiguration config;
-    private boolean enabled = true;
+    private final boolean enabled;
     
     private final NamespacedKey STARTUP_AND_SHUTDOWN;
     
     public StartupAndShutdown(DisCoreBot core) {
         this.core = core;
-        STARTUP_AND_SHUTDOWN = NamespacedKey.fromString("startup_and_shutdown", core);
+        STARTUP_AND_SHUTDOWN = new NamespacedKey(core, "startup_and_shutdown");
         
         this.configFile = new File(core.getAddonDataDir(), "startup_and_shutdown/startup_and_shutdown.yml");
         loadConfig();
         
         // アドオンが有効設定の場合のみ機能させる
         enabled = config.getBoolean("enabled");
-        if (!enabled) return;
-        core.getServer().getPluginManager().registerEvents(this, core);
-        
+    }
+
+    public void registerEvents() {
+        if (enabled) {
+            core.getServer().getPluginManager().registerEvents(this, core);
+        }
     }
     
     private void loadConfig() {
@@ -55,16 +58,16 @@ public class StartupAndShutdown implements Listener {
     @EventHandler
     public void onRegister(DisCoreBotRegisterEvent event) {
         if (!enabled) return;
-        event.registerM2D(STARTUP_AND_SHUTDOWN, config.getString("channel-id"));
+        event.registerM2D(STARTUP_AND_SHUTDOWN, config.getString("channel-id", ""));
     }
     
     public void onEnable() {
         if (!enabled) return;
-        DisCoreBotApi.getInstance().sendMessage(STARTUP_AND_SHUTDOWN, config.getString("channel-id"), new WebhookMessageBuilder().setContent("サーバーが起動しました。").build());
+        DisCoreBotApi.getInstance().sendMessage(STARTUP_AND_SHUTDOWN, config.getString("channel-id", ""), new WebhookMessageBuilder().setContent("サーバーが起動しました。").build());
     }
     
     public void onDisable() {
         if (!enabled) return;
-        DisCoreBotApi.getInstance().sendMessage(STARTUP_AND_SHUTDOWN, config.getString("channel-id"), new WebhookMessageBuilder().setContent("サーバーを終了しました。").build());
+        DisCoreBotApi.getInstance().sendMessage(STARTUP_AND_SHUTDOWN, config.getString("channel-id", ""), new WebhookMessageBuilder().setContent("サーバーを終了しました。").build());
     }
 }

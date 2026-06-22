@@ -40,13 +40,11 @@ public class Command implements CommandExecutor, TabCompleter {
                     sender.sendMessage("IDを指定してください");
                     break;
                 }
-                if (!core.getWebhookManager().hasKey(NamespacedKey.fromString(args[1]))) {
+                NamespacedKey key = NamespacedKey.fromString(args[1]);
+                if (key == null || !core.getWebhookManager().hasKey(key)) {
                     sender.sendMessage("そのIDは存在しません");
                     break;
                 }
-                
-                
-                NamespacedKey key = NamespacedKey.fromString(args[1]);
                 
                 if (args.length < 3) {
                     toggleKeyActive(sender, key, null);

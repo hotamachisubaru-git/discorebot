@@ -21,23 +21,25 @@ public class Chat implements Listener {
     private final DisCoreBot core;
     private final File configFile;
     private YamlConfiguration config;
-    private boolean enabled = true;
+    private final boolean enabled;
     
     private final NamespacedKey CHAT;
     
     public Chat (DisCoreBot core) {
         this.core = core;
-        CHAT = NamespacedKey.fromString("chat", core);
+        CHAT = new NamespacedKey(core, "chat");
         
         this.configFile = new File(core.getAddonDataDir(), "chat/chat.yml");
         loadConfig();
         
         // アドオンが有効設定の場合のみ機能させる
         enabled = config.getBoolean("enabled");
-        if (!enabled) return;
-        core.getServer().getPluginManager().registerEvents(this, core);
-        
-        
+    }
+
+    public void registerEvents() {
+        if (enabled) {
+            core.getServer().getPluginManager().registerEvents(this, core);
+        }
     }
     
     private void loadConfig() {
@@ -60,21 +62,21 @@ public class Chat implements Listener {
     @EventHandler
     public void onRegister(DisCoreBotRegisterEvent event) {
         if (!enabled) return;
-        event.registerM2D(CHAT, config.getString("channel-id"));
+        event.registerM2D(CHAT, config.getString("channel-id", ""));
     }
     
     @EventHandler
     public void onDiscordChat(DisCoreBotDiscordMsgEvent event) {
         if (!enabled) return;
-        if (!event.getChannelID().equals(config.getString("channel-id"))) return;
+        if (!event.getChannelID().equals(config.getString("channel-id", ""))) return;
         Member member = event.getEvent().getMember();
         String name = (member != null && member.getNickname() != null) ? member.getNickname() : event.getEvent().getAuthor().getName();
-        Bukkit.broadcastMessage(String.format("<%s> %s", name, event.getMessage()));
+        core.getServer().broadcastMessage(String.format("<%s> %s", name, event.getMessage()));
     }
     
     @EventHandler
     public void onMinecraftChat(AsyncPlayerChatEvent event) {
         if (!enabled) return;
-        DisCoreBotApi.getInstance().sendMessage(CHAT, config.getString("channel-id"), new WebhookMessageBuilder().setAvatarUrl(String.format("https://mc-heads.net/avatar/%s", event.getPlayer().getUniqueId())).setUsername(event.getPlayer().getDisplayName()).setContent(event.getMessage()).build());
+        DisCoreBotApi.getInstance().sendMessage(CHAT, config.getString("channel-id", ""), new WebhookMessageBuilder().setAvatarUrl(String.format("https://mc-heads.net/avatar/%s", event.getPlayer().getUniqueId())).setUsername(event.getPlayer().getDisplayName()).setContent(event.getMessage()).build());
     }
 }

@@ -14,6 +14,10 @@ public class DisCoreBotStopEvent extends Event {
     public DisCoreBotStopEvent(DisCoreBot core) {
         this.core = core;
     }
+
+    public DisCoreBot getCore() {
+        return core;
+    }
     
     @NotNull
     @Override

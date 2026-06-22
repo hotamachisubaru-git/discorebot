@@ -70,6 +70,10 @@ public final class DisCoreBot extends JavaPlugin implements Listener {
         addonJoinAndQuit = new JoinAndQuit(this);
         addonListCommand = new ListCommand(this);
         addonStartupAndShutdown = new StartupAndShutdown(this);
+        addonChat.registerEvents();
+        addonJoinAndQuit.registerEvents();
+        addonListCommand.registerEvents();
+        addonStartupAndShutdown.registerEvents();
         addonStartupAndShutdown.onEnable();
     }
     

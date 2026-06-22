@@ -16,7 +16,7 @@ public class ListCommand implements Listener {
     private final DisCoreBot core;
     private final File configFile;
     private YamlConfiguration config;
-    private boolean enabled = true;
+    private final boolean enabled;
     
     public ListCommand (DisCoreBot core) {
         this.core = core;
@@ -26,10 +26,12 @@ public class ListCommand implements Listener {
         
         // アドオンが有効設定の場合のみ機能させる
         enabled = config.getBoolean("enabled");
-        if (!enabled) return;
-        core.getServer().getPluginManager().registerEvents(this, core);
-        
-        
+    }
+
+    public void registerEvents() {
+        if (enabled) {
+            core.getServer().getPluginManager().registerEvents(this, core);
+        }
     }
     
     private void loadConfig() {

@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.21.11-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:26.1-R0.1-SNAPSHOT")
 
     implementation("net.dv8tion:JDA:6.4.1") {
         // 音声系は不要なので除外して軽量化
@@ -28,7 +28,7 @@ dependencies {
 
 bukkitPluginYaml {
     main = "io.github.mrbest2525.disCoreBot.DisCoreBot"
-    apiVersion = "1.21"
+    apiVersion = "26.1"
 
     load = BukkitPluginYaml.PluginLoadOrder.STARTUP
     authors.addAll("Mr.Best")
@@ -44,7 +44,7 @@ bukkitPluginYaml {
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
 }
 
 tasks {

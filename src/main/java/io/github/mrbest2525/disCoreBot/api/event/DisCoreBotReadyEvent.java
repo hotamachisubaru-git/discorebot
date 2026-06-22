@@ -14,6 +14,10 @@ public class DisCoreBotReadyEvent extends Event {
     public DisCoreBotReadyEvent(DisCoreBot core) {
         this.core = core;
     }
+
+    public DisCoreBot getCore() {
+        return core;
+    }
     
     @NotNull
     @Override

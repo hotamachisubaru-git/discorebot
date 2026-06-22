@@ -19,6 +19,15 @@ public class DisCoreBotDiscordMsgEvent  extends Event {
         this.core = core;
         this.jdaEvent = jdaEvent;
     }
+
+    /**
+     * イベントを発火したDisCoreBotインスタンスを取得します。
+     *
+     * @return DisCoreBotインスタンス
+     */
+    public DisCoreBot getCore() {
+        return core;
+    }
     
     /**
      * JDAの生イベントを取得します。

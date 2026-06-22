@@ -18,10 +18,10 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Set up JDK 21
+      - name: Set up JDK 25
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '25'
           distribution: 'temurin'
           cache: 'gradle'
           server-id: github # Packages 公開用の設定
@@ -42,7 +42,7 @@ jobs:
           
           git add gradle.properties
           if ! git diff --cached --exit-code --quiet; then
-            git commit -m "chore: bump version to ${VERSION} for tag ${RAW_TAG}"
+            git commit -m "リリース用バージョンを${VERSION}に更新"
             git tag -f ${RAW_TAG}
             git push origin ${RAW_TAG} --force
           else
@@ -101,6 +101,6 @@ jobs:
           files: build/libs/*-all.jar
           version: ${{ github.ref_name }}
           version-type: ${{ steps.check_type.outputs.type }}
-          # Spigot 1.21.11 への対応
+          # Spigot 26.1 への対応
           loaders: spigot, paper
-          game-versions: 1.21.11
+          game-versions: '26.1'
