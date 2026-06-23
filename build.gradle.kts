@@ -2,7 +2,7 @@ import xyz.jpenilla.resourcefactory.bukkit.BukkitPluginYaml
 
 plugins {
     id("java-library")
-    id("com.gradleup.shadow") version "9.4.1"
+    id("com.gradleup.shadow") version "9.4.2"
     id("xyz.jpenilla.resource-factory-bukkit-convention") version "1.3.1"
     `maven-publish`
 }
@@ -18,7 +18,7 @@ repositories {
 dependencies {
     compileOnly("org.spigotmc:spigot-api:26.2-R0.1-SNAPSHOT")
 
-    implementation("net.dv8tion:JDA:6.4.1") {
+    implementation("net.dv8tion:JDA:6.4.2") {
         // 音声系は不要なので除外して軽量化
         exclude(module = "opus-java")
         exclude(module = "tink")
