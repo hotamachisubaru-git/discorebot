@@ -126,6 +126,10 @@ public final class DisCoreBot extends JavaPlugin implements Listener {
     public MessageExecutor getMessageExecutor() {
         return messageExecutor;
     }
+
+    public DisCoreBotApi getApi() {
+        return api;
+    }
     
     public File getWebhookSavePath() {
         return new File(getDataFolder(), "data/webhook.yml");

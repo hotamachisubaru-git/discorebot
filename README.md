@@ -30,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.mrbest2525:discorebot:v1.1.3")
+    compileOnly("com.github.mrbest2525:discorebot:v1.1.4")
 }
 ```
 > ※最新のリリースと同じバージョンに変更してください。
@@ -90,7 +90,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.mrbest2525:discorebot:v1.1.3")
+    compileOnly("com.github.mrbest2525:discorebot:v1.1.4")
 }
 ```
 > *Please update to the latest release version.
