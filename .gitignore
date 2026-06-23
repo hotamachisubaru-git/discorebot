@@ -6,6 +6,10 @@
 
 # Gradle build folder
 build
+bin/
+
+# VS Code workspace settings
+.vscode/
 
 # IntelliJ
 out/

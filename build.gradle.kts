@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:26.1-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:26.1.2-R0.1-SNAPSHOT")
 
     implementation("net.dv8tion:JDA:6.4.1") {
         // 音声系は不要なので除外して軽量化

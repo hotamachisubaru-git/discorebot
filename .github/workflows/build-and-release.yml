@@ -101,6 +101,9 @@ jobs:
           files: build/libs/*-all.jar
           version: ${{ github.ref_name }}
           version-type: ${{ steps.check_type.outputs.type }}
-          # Spigot 26.1 への対応
+          # Spigot 26.1から26.1.2への対応
           loaders: spigot, paper
-          game-versions: '26.1'
+          game-versions: |
+            26.1
+            26.1.1
+            26.1.2
