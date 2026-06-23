@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:26.1.2-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:26.2-R0.1-SNAPSHOT")
 
     implementation("net.dv8tion:JDA:6.4.1") {
         // 音声系は不要なので除外して軽量化
@@ -28,7 +28,7 @@ dependencies {
 
 bukkitPluginYaml {
     main = "io.github.mrbest2525.disCoreBot.DisCoreBot"
-    apiVersion = "26.1"
+    apiVersion = "26.2"
 
     load = BukkitPluginYaml.PluginLoadOrder.STARTUP
     authors.addAll("Mr.Best")
@@ -51,12 +51,18 @@ tasks {
     build {
         dependsOn(shadowJar)
     }
+
+    jar {
+        // 依存ライブラリを含まないJARの誤配布を防ぐ
+        enabled = false
+    }
 }
 
 tasks.shadowJar {
     mergeServiceFiles()
 
-    archiveClassifier.set("all")
+    // 配布用の依存込みJARを通常のファイル名で生成する
+    archiveClassifier.set("")
 
     from("LICENSE")
     from("NOTICE")

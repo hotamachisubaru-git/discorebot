@@ -55,7 +55,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
       
-      # 1. GitHub Packages への公開 (純粋な jar と shadowJar 両方)
+      # 1. GitHub Packages への公開（依存ライブラリを含むJAR）
       - name: Publish to GitHub Packages
         run: ./gradlew publish
         env:
@@ -76,7 +76,7 @@ jobs:
             echo "type=skip" >> $GITHUB_OUTPUT
           fi
       
-      # 2. GitHub Release 作成 (shadowJar をアップロード)
+      # 2. GitHub Release 作成（依存ライブラリを含むJARをアップロード）
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v2
@@ -85,8 +85,7 @@ jobs:
           prerelease: ${{ contains(github.ref_name, '-') }}
           generate_release_notes: true
           name: ${{ github.ref_name }}
-          # 配布用 (-all) のみを対象にする
-          files: build/libs/*-all.jar
+          files: build/libs/*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
@@ -97,13 +96,14 @@ jobs:
         with:
           modrinth-id: ${{ secrets.MODRINTH_PROJECT_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          # Modrinth には配布用の shadowJar のみを送信
-          files: build/libs/*-all.jar
+          # Modrinthには依存ライブラリを含むJARのみを送信
+          files: build/libs/*.jar
           version: ${{ github.ref_name }}
           version-type: ${{ steps.check_type.outputs.type }}
-          # Spigot 26.1から26.1.2への対応
+          # Spigot 26.1から26.2への対応
           loaders: spigot, paper
           game-versions: |
             26.1
             26.1.1
             26.1.2
+            26.2
